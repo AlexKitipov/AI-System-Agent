@@ -7,7 +7,7 @@ type text, open/close apps, list processes, and manage files inside a
 directory sandbox you define.
 
 **Nothing in this project connects to any AI service.** It's purely the
-receiving end вЂ” you point an AI (or your own scripts) at it.
+receiving end — you point an AI (or your own scripts) at it.
 
 ## Project layout
 
@@ -55,10 +55,10 @@ pip install "uvicorn[standard]"
 }
 ```
 
-- **`shared_secret`** вЂ” change this to a random string. Every request must
+- **`shared_secret`** — change this to a random string. Every request must
   include it, or it's rejected. There is no default/bypass; if this field
   is empty, the server refuses *all* commands.
-- **`allowed_directories`** вЂ” the only folders `file_create`, `file_delete`,
+- **`allowed_directories`** — the only folders `file_create`, `file_delete`,
   `file_move`, and `file_list` are allowed to touch. Anything outside
   these paths is refused, no matter what a command asks for.
 
@@ -72,7 +72,7 @@ python -m uvicorn gateway.server:app --host 127.0.0.1 --port 8765
 
 Or just double-click **`run_all.bat`**, which does the same thing.
 
-> There's no separate step to "start the agent" вЂ” `system_agent.py` has
+> There's no separate step to "start the agent" — `system_agent.py` has
 > no network port of its own. It's imported directly by `gateway/server.py`
 > and runs in the same process, which is why one command starts everything.
 
@@ -146,7 +146,7 @@ X-Auth-Token: CHANGE_ME_SECRET
 ```
 
 The token can go either in the `X-Auth-Token` header (shown above) or as
-a `"token"` field inside the JSON body вЂ” useful for the WebSocket
+a `"token"` field inside the JSON body — useful for the WebSocket
 endpoint at `ws://127.0.0.1:8765/ws`, which doesn't support custom
 headers from a browser client.
 
@@ -167,7 +167,7 @@ or
   shortcut to `run_all.bat` in the folder that opens. It'll launch (with
   a visible console window) every time you log in.
 
-## Security notes вЂ” read before exposing this to anything
+## Security notes — read before exposing this to anything
 
 - The server binds to **`127.0.0.1` only**. It is never reachable from
   other devices on your network, regardless of firewall settings.
@@ -175,9 +175,9 @@ or
   the default value before running this for real.
 - File operations are hard-sandboxed to `allowed_directories` via
   `agent/utils.py::safe_path`. There's no code path that lets a command
-  escape that sandbox вЂ” if `allowed_directories` is empty, all file
+  escape that sandbox — if `allowed_directories` is empty, all file
   operations are refused outright.
-- `open_app` and `close_app` are **not** sandboxed вЂ” by design, this
+- `open_app` and `close_app` are **not** sandboxed — by design, this
   agent can launch and kill arbitrary programs on your machine (that's
   the point). Keep your `shared_secret` private, since anyone who has it
   can act as you on this machine while the gateway is running.
@@ -187,4 +187,4 @@ or
 - This project intentionally does not include a remote/internet-facing
   mode. If you ever want an AI running elsewhere to control this
   machine, that requires a deliberate, separate design (tunneling,
-  proper auth, etc.) вЂ” don't just change the bind address to `0.0.0.0`.
+  proper auth, etc.) — don't just change the bind address to `0.0.0.0`.

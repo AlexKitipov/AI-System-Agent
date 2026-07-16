@@ -1,0 +1,11 @@
+{
+  "gateway_port": 8765,
+  "shared_secret": "CHANGE_ME_SECRET",
+  "allowed_directories": [
+    "C:/Users/Alex Kitipov/Desktop",
+    "C:/Users/Alex Kitipov/Downloads",
+    "C:/Users/Alex Kitipov/Documents"
+],
+
+  "log_level": "info"
+}
