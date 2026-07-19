@@ -51,7 +51,9 @@ def validate_command(command: dict):
         return False, error_result(f"Unknown action '{action}'")
 
     _, required_params = ACTION_MAP[action]
-    params = command.get("params", {}) or {}
+    params = command.get("params", {})
+    if params is None:
+        params = {}
 
     if not isinstance(params, dict):
         return False, error_result("'params' must be a JSON object")
