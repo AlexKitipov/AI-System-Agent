@@ -1,0 +1,25 @@
+# Local runtime configuration (copy config.example.json to config.json)
+config.json
+
+# Runtime logs and transient output
+logs/
+*.log
+
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

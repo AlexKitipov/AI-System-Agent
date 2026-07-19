@@ -23,7 +23,7 @@ ai_agent/
   frontend/
     index.html          # manual test console
     app.js
-  config.json
+  config.example.json  # template; copy to config.json locally
   run_all.bat
   README.md
 ```
@@ -43,10 +43,24 @@ pip install "uvicorn[standard]"
 
 ## 2. Configure `config.json`
 
+`config.json` is intentionally ignored by git because it contains your local secret and machine-specific paths. Create it from the checked-in template before starting the server:
+
+```bash
+cp config.example.json config.json
+```
+
+On Windows PowerShell, use:
+
+```powershell
+Copy-Item config.example.json config.json
+```
+
+Then edit `config.json` with your own secret and allowed directories:
+
 ```json
 {
   "gateway_port": 8765,
-  "shared_secret": "CHANGE_ME_SECRET",
+  "shared_secret": "CHANGE_ME_TO_A_RANDOM_SECRET",
   "allowed_directories": [
     "C:/Users/YourUser/Desktop",
     "D:/Projects"
@@ -83,7 +97,7 @@ AI System Agent Gateway
 Listening on http://127.0.0.1:8765
 ```
 
-Logs are written to `logs/agent.log`.
+Logs are written to `logs/agent.log`. The `logs/` directory is a local runtime artifact and is not tracked by git.
 
 ## 4. Test it manually
 
@@ -162,7 +176,7 @@ or
 ## 7. Autostart on Windows
 
 - **Manual (VS Code terminal):** run the command from step 3 directly.
-- **`run_all.bat`:** double-click it, or run it from a terminal.
+- **`run_all.bat`:** double-click it, or run it from a terminal. Make sure you have created your local `config.json` first.
 - **Start on boot:** press `Win+R`, type `shell:startup`, and drop a
   shortcut to `run_all.bat` in the folder that opens. It'll launch (with
   a visible console window) every time you log in.
@@ -171,8 +185,9 @@ or
 
 - The server binds to **`127.0.0.1` only**. It is never reachable from
   other devices on your network, regardless of firewall settings.
-- Every command requires the `shared_secret` from `config.json`. Change
-  the default value before running this for real.
+- Every command requires the `shared_secret` from your local, gitignored
+  `config.json`. Change the template value before running this for real, and
+  do not commit your local config.
 - File operations are hard-sandboxed to `allowed_directories` via
   `agent/utils.py::safe_path`. There's no code path that lets a command
   escape that sandbox — if `allowed_directories` is empty, all file
