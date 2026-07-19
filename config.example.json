@@ -1,0 +1,9 @@
+{
+  "gateway_port": 8765,
+  "shared_secret": "CHANGE_ME_TO_A_RANDOM_SECRET",
+  "allowed_directories": [
+    "C:/Users/YourUser/Desktop",
+    "D:/Projects"
+  ],
+  "log_level": "info"
+}
