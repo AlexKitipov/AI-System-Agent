@@ -30,16 +30,31 @@ ai_agent/
 
 ## 1. Install dependencies
 
-```bash
-pip install fastapi uvicorn pyautogui psutil
-```
-
-You'll also want `uvicorn[standard]` for WebSocket support, though plain
-`uvicorn` works for the HTTP endpoint:
+This project includes a Python dependency manifest so every contributor installs the same runtime stack. From the repository root, create and activate a virtual environment, then install the dependencies:
 
 ```bash
-pip install "uvicorn[standard]"
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
+
+On Windows PowerShell, activate the virtual environment with:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Development helpers are also available through the included `Makefile`:
+
+```bash
+make install
+make run
+```
+
+`requirements.txt` installs FastAPI, `uvicorn[standard]` for HTTP/WebSocket serving, `pyautogui` for desktop control, and `psutil` for process management.
 
 ## 2. Configure `config.json`
 
@@ -99,13 +114,40 @@ Listening on http://127.0.0.1:8765
 
 Logs are written to `logs/agent.log`. The `logs/` directory is a local runtime artifact and is not tracked by git.
 
-## 4. Test it manually
+## 4. Verify the installation
+
+After creating `config.json`, you can verify that the app imports and the health endpoint responds:
+
+```bash
+python -c "import gateway.server; print('import gateway.server ok')"
+python -m uvicorn gateway.server:app --host 127.0.0.1 --port 8765
+```
+
+In a second terminal, run:
+
+```bash
+curl http://127.0.0.1:8765/health
+```
+
+Expected response:
+
+```json
+{ "status": "ok" }
+```
+
+You can run the same import and `/health` smoke test with:
+
+```bash
+make smoke-test
+```
+
+## 5. Test it manually
 
 Open `frontend/index.html` directly in a browser (double-click it, no
 server needed for the page itself). Enter your `shared_secret` in the
 **Token** field, paste a JSON command, and click **Send command**.
 
-## 5. Example commands
+## 6. Example commands
 
 Move the mouse:
 ```json
@@ -147,7 +189,7 @@ Full action list: `move_mouse`, `click`, `type_text`, `open_app`,
 `close_app`, `list_processes`, `file_create`, `file_delete`, `file_move`,
 `file_list`.
 
-## 6. How another AI connects
+## 7. How another AI connects
 
 Point it at:
 
@@ -173,7 +215,7 @@ or
 { "status": "error", "details": "..." }
 ```
 
-## 7. Autostart on Windows
+## 8. Autostart on Windows
 
 - **Manual (VS Code terminal):** run the command from step 3 directly.
 - **`run_all.bat`:** double-click it, or run it from a terminal. Make sure you have created your local `config.json` first.
